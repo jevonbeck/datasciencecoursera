@@ -2,7 +2,7 @@ Dataset CodeBook
 =================
 
 ## Introduction
-This codebook describes the data in the dataset produced by "run_analysis.R". The script takes a subset of the data from the Human Activity Recognition Using Smartphones Dataset and produces the average of the time and frequency domain variables for each activity and each person. The subset of features extracted is described below.
+This codebook describes the data in the dataset produced by "run_analysis.R". The script takes a subset of the data from the Human Activity Recognition Using Smartphones Dataset and produces the average of the time and frequency domain variables for each activity and each person. Recall that there were 30 subjects each performing 6 activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) in the original dataset. The subset of features extracted is described below.
 
 ## Features
 The Human Activity Recognition Using Smartphones Dataset contains a set of features obtained from activity measurements. The main features are described as follows: 
@@ -97,3 +97,5 @@ The complete list of variables of each feature vector for the script-produced da
 * fBodyGyroMag-std()
 * fBodyGyroJerkMag-mean()
 * fBodyGyroJerkMag-std()
+
+The final script-produced dataset also includes cloumns for subjectId and activity.

@@ -111,11 +111,13 @@ getAverages <- function(datasetDirectory, fullDataSet){
         resList <- c(resList, list(resVec))
     }
     
-    # create row names (each name is a subject-activity pair)
-    rowNames <- vector("character", flattenedTableVectorLength)
+    # create subject and activity columns
+    subjectCol <- vector("integer", flattenedTableVectorLength)
+    activityCol <- vector("character", flattenedTableVectorLength)
     for(y in allSubjects){
         for(z in seq(along=activityLabels)){
-            rowNames[activityCount*(y-1)+z ] <- paste0(as.character(y),",",activityLabels[z])
+            subjectCol[activityCount*(y-1)+z ] <- y
+            activityCol[activityCount*(y-1)+z ] <- activityLabels[z]
         }
     }
     
@@ -123,9 +125,9 @@ getAverages <- function(datasetDirectory, fullDataSet){
     colNames <- names(fullDataSet)[featuresRange]
     
     # convert list to data frame with appropriate row and column names
-    resDataFrame <- data.frame(resList, row.names = rowNames)
+    resDataFrame <- data.frame(resList)
     names(resDataFrame) <- colNames
-    resDataFrame
+    cbind(subjectId = subjectCol, activity = activityCol, resDataFrame)
 }
 
 ### Main execution ###
