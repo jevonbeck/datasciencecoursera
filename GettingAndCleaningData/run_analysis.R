@@ -1,13 +1,7 @@
 # This function extracts the factor labels for Activity Labels and Feature Names
 getFactorLabels <- function(fileName){
-    lines <- readLines(fileName)
-    splitLines <- strsplit(lines, " ")
-    vectorLength <- length(splitLines)
-    retVec <- vector("character", vectorLength)
-    for(x in 1:vectorLength){
-        retVec[x] <- splitLines[[x]][2]
-    }
-    retVec
+    rawTable <- read.table(fileName)
+    as.character(rawTable[,2])
 }
 
 # This function converts a vector (of numbers) into a factor
@@ -28,23 +22,9 @@ createFeatureFrame <- function(fileName, featureFactors){
     interestFeatureNames <- gsub("BodyBody","Body",interestFeatureNames)
     
     # populate features data from file
-    lines <- readLines(fileName)
-    splitLines <- strsplit(lines, " ")
-    vectorLength <- length(splitLines)
-    for(x in 1:vectorLength){
-        # extract interesting features from each row
-        lineWithHoles <- splitLines[[x]]
-        lineWithoutHoles <- lineWithHoles[lineWithHoles != ""]
-        interestValues <- as.numeric(lineWithoutHoles[interestingFeatureIds])
-        
-        # store interesting features in list for now
-        splitLines[[x]] <- interestValues
-    }
-    
-    # convert list to data frame with appropriate column names
-    resDataFrame <- data.frame(splitLines)
-    resDataFrame <- as.data.frame(t(resDataFrame)) # transpose data frame to get proper feature columns (due to list/data frame relationship)
-    names(resDataFrame) <- interestFeatureNames
+    rawFeatures <- read.table(fileName)
+    resDataFrame <- rawFeatures[interestingFeatureIds]
+    names(resDataFrame) <- interestFeatureNames # label with appropriate column names
     resDataFrame
 }
 
@@ -124,7 +104,7 @@ getAverages <- function(datasetDirectory, fullDataSet){
     # create column names (each name is the variable for which means were determined)
     colNames <- names(fullDataSet)[featuresRange]
     
-    # convert list to data frame with appropriate row and column names
+    # convert list to data frame with appropriate column names
     resDataFrame <- data.frame(resList)
     names(resDataFrame) <- colNames
     cbind(subjectId = subjectCol, activity = activityCol, resDataFrame)
